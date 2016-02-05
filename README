@@ -3,4 +3,10 @@ Update log
 11/2015
 ------------------------------------------------------------------------
 +  In step3, new Delphi is added
++  12/01/2015,  In Yifan's monte carlo, now it takes energies.opp file as an input.
++  12/24/2015, Added flag for Gaussian smoothing, 1 means run Gaussian,
+    zero means run step function.  For more information visit.
+    http://compbio.clemson.edu/downloadDir/delphi/delphi95_manual.pdf
++  12/29/2015, Added two flags for the use of Gaussian smoothing, sigma and srfcut.
++  02/01/2016, Added a flag to display extra column to the opp energy files.
 
