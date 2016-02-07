@@ -543,7 +543,7 @@ int conf_energies(int kr, int kc, PROT prot)
 			}
 			
 				
-			/* clean records of the apbs run - maybe we don't need to clean them */
+			// clean records of the apbs run - maybe we don't need to clean them
 			sprintf(sbuff, "apbs.pqr");
 			remove(sbuff);
 			sprintf(sbuff, "io.mc");
@@ -1610,7 +1610,7 @@ int conf_rxn(int kr, int kc, PROT prot)
 					}
 				fclose(fp);
 				
-				/*don't need fort.27 again since the center is the same*/
+				// don't need fort.27 again since the center is the same
 				
 				fp = fopen("fort.10", "w");
 				if(!strcmp(env.delphi_exe_home, "delphi1")){
@@ -2055,18 +2055,17 @@ int conf_rxn(int kr, int kc, PROT prot)
                                             prot.res[i].conf[j].tmp_pw_vdw,
                                             prot.res[i].conf[j].tmp_pw_ele);
          }
-		 if (j==prot.res[i].i_bound){
-			 fprintf(fp,"%10.3f",prot.res[i].pw_bound);
-		 }else{
-			 fprintf(fp, "%10.3f",0.000);
+		 if (env.opp_extended){
+			 if (j==prot.res[i].i_bound){
+				 fprintf(fp,"%10.3f",prot.res[i].pw_bound);
+			 }else{
+				 fprintf(fp, "%10.3f",0.000);
+			 }
+			 fprintf(fp,"%10.3f",k_single_multi);
 		 }
          if (prot.res[i].conf[prot.res[i].i_bound].tmp_pw_vdw > 50.0) fprintf(fp, "?");
-         if (j==prot.res[i].i_bound) {
-			 fprintf(fp,"*\n");
-			 }
-         else {
-			 fprintf(fp, "\n");
-			 }
+		 if (j==prot.res[i].i_bound)fprintf(fp,"*\n");
+         else fprintf(fp, "\n");
       }
    }
 
