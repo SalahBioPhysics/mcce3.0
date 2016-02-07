@@ -8,5 +8,5 @@ Update log
     zero means run step function.  For more information visit.
     http://compbio.clemson.edu/downloadDir/delphi/delphi95_manual.pdf
 +  12/29/2015,  Added two flags for the use of Gaussian smoothing, sigma and srfcut.
-+  02/01/2016,  Added a flag to display extra column to the opp energy files.
++  02/01/2016,  Added a flag to display two extra columns to the opp energy files.
 
