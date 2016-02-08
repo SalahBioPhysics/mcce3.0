@@ -561,6 +561,13 @@ int get_env()
 		else if (strstr(sbuff, "(GAUSSIAN_SRFCUT)")) {
            env.gaussian_srfcut = atof(strtok(sbuff, " "));
         }
+		else if (strstr(sbuff, "(OPP_EXTENDED)")) {
+            str1 = strtok(sbuff, " ");
+            if (str1[0] == 't' || str1[0] == 'T') {
+                env.opp_extended = 1;
+            }
+            else env.opp_extended = 0;
+        }
         else if (strstr(sbuff, "(DELPHI_FAILS)")) {
             str1 = strtok(sbuff, " ");
             if (str1[0] == 'd' || str1[0] == 'D') {
@@ -586,10 +593,11 @@ int get_env()
         else if (strstr(sbuff, "(WARN_PAIRWISE)")) {
             env.warn_pairwise = atof(strtok(sbuff, " "));
         }
-        
         else if (strstr(sbuff, "(MONTE_ADV_OPT)")) {
             str1 = strtok(sbuff, " ");
-            if (str1[0] == 't' || str1[0] == 'T') env.monte_adv_opt = 1;
+            if (str1[0] == 't' || str1[0] == 'T') {
+                env.monte_adv_opt = 1;
+            }
             else env.monte_adv_opt = 0;
         }
         else if (strstr(sbuff, "(MONTE_SEED)")) {

@@ -437,7 +437,8 @@ typedef struct {
        float vdw;
        float crt;
        float ori;     
-	   float pwBound; // This is the single value that comes from the rxn interaction, the value comes from conf_rxn line ~1942 
+	   float pwBound; // This is the single value that comes from the rxn interaction, the value comes from conf_rxn line ~1942  
+	   float kfactor; // This is the boundry correction named k_single_multi in energies.c
 	   char  mark[4];
 } PAIRWISE;
 
@@ -641,7 +642,8 @@ typedef struct {
 	char  do_gaussian_smooth; // This flag uses Gaussian smooth dielectric method
 	float gaussian_sigma;     // The value of the variance of Gaussian distributio. This parameter affects how Gaussian function generates the dielectric distribution. From our benchmark against experimental measured pKa’s on two datasets, the optimal value is 0.7 for surface residues; and 0.95 for buried residues.
 	float gaussian_srfcut;    // The cutoff for the molecule−water interface GAUSSIAN_SRFCUT
-    float ionrad;
+    char  opp_extended;       // OPP_EXTENDED will display two extra columns in the opp files 
+	float ionrad;
     float salt;
     char  delphi_exe[256];
 	char  delphi_exe_home[256];

@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
    if (env.do_monte) {
       printf("Step 4. Monte Carlo Sampling\n"); fflush(stdout);
       if (!env.monte_adv_opt) {
-      if (monte()) {db_close(); return USERERR;}
+		   if (monte()) {db_close(); return USERERR;}
            else printf("Step 4 Done.\n\n");
        }
        else {
@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
 
 void welcome()
 {  
-   printf(" _________________________MCCE 3.0_________________________\n");
+   printf(" _________________________MCCE 3.0____________________________\n");
    printf("|	   						      |\n");
    printf("|    MCCE (Multi-Conformation Continuum Electrostatics)       |\n");
    printf("|	is a program developed at Marilyn Gunner's lab.	      |\n");
@@ -111,7 +111,8 @@ void welcome()
    printf("            zero means run step function.  For more information visit\n");
    printf("            http://compbio.clemson.edu/downloadDir/delphi/delphi95_manual.pdf \n");
    printf("12/29/2015, Added two flags for the use of Gaussian smoothing, sigma and srfcut.\n");
-   printf("02/01/2016, Added an extra column to the opp energy files.\n");
+   printf("02/01/2016, Added a flag (OPP_EXTENDED) that displays two extra ");
+   printf("            columns to the opp energy files.\n");
    printf("===========================================================\n\n");
    fflush(stdout);
 	
