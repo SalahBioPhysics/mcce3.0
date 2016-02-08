@@ -437,7 +437,8 @@ typedef struct {
        float crt;
        float ori;
 	   float pwBound; // This is the single value that comes from the rxn interaction, the value comes from conf_rxn line ~1942 
-       char  mark[4];
+       float kfactor; // This is the boundry correction named k_single_multi in energies.c
+	   char  mark[4];
 } PAIRWISE;
 
 
@@ -663,7 +664,7 @@ typedef struct {
     int   monte_trace;
     int   nstate_max;
 
-    char  monte_adv_opt;
+    char  monte_adv_opt; 
     int   adding_conf;   // Changed from char to int. by Salah (Dec. 2015) 
     char  monte_old_input;
     int   monte_n_red;
@@ -704,7 +705,8 @@ typedef struct {
 	char  do_gaussian_smooth; // This flag uses Gaussian smooth dielectric method
 	float gaussian_sigma;     // The value of the variance of Gaussian distributio
 	float gaussian_srfcut;    // The cutoff for the molecule−water interface GAUSSIAN_SRFCUT
-    int   skip_ele;
+    char  opp_extended;       // OPP_EXTENDED will display two extra columns in the opp files 
+	int   skip_ele;
     //char  delphi_folder[256];
     char  delphi_clean;
 	int   display_delphi_io_intial; // This flag to display what is sent/received to delphi (Jan. 2016 by Salah)
