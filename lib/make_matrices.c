@@ -184,27 +184,34 @@ int make_matrices(PROT prot, char *dir)
                   return USERERR;
                }
 
-
-               strncpy(sbuff2, sbuff, 5); sbuff2[5] = '\0';
+               // read from energies.c and save into ematrix
+               strncpy(sbuff2, sbuff, 5); sbuff2[5] = '\0';           // Column one in opp from energies.c   (prot.res[i].conf[j].iConf)
                // serial = atoi(sbuff2); // Commented out by Salah on Dec. 2015 (not used)
 
-               strncpy(uniqID, sbuff+6, 14); uniqID[14] = '\0';
+               strncpy(uniqID, sbuff+6, 14); uniqID[14] = '\0';       // Column two in opp from energies.c   (prot.res[i].conf[j].uniqID)
 
-               strncpy(sbuff2, sbuff+20, 10); sbuff2[10] = '\0';
+               strncpy(sbuff2, sbuff+20, 10); sbuff2[10] = '\0';      // Column three in opp from energies.c (prot.res[i].conf[j].tmp_pw_ele * k_single_multi)
                ematrix.pw[kc][i].crt = atof(sbuff2);
 
-               strncpy(sbuff2, sbuff+30, 10); sbuff2[10] = '\0';
+               strncpy(sbuff2, sbuff+30, 10); sbuff2[10] = '\0';      // Column four in opp from energies.c  (prot.res[i].conf[j].tmp_pw_vdw)
                ematrix.pw[kc][i].vdw = atof(sbuff2);
 
-               strncpy(sbuff2, sbuff+40, 10); sbuff2[10] = '\0';
+               strncpy(sbuff2, sbuff+40, 10); sbuff2[10] = '\0';      // Column five in opp from energies.c  (prot.res[i].conf[j].tmp_pw_ele)
                ematrix.pw[kc][i].ori = atof(sbuff2);
 			   
-			   strncpy(sbuff2, sbuff+50, 10); sbuff2[10] = '\0'; // Salah added on Jun 2016
-               ematrix.pw[kc][i].pwBound = atof(sbuff2); // Salah added on Jun 2016
-
-               strncpy(ematrix.pw[kc][i].mark, sbuff+60, 3);
-               *(strchr(ematrix.pw[kc][i].mark,'\n')) = '\0';
-
+			   if (env.opp_extended){
+				   strncpy(sbuff2, sbuff+50, 10); sbuff2[10] = '\0';      // Column six in opp from energies.c   (prot.res[i].pw_bound or zero) by Salah on Jun 2016
+				   ematrix.pw[kc][i].pwBound = atof(sbuff2);              // Added by Salah on Jun 2016
+				   
+				   strncpy(sbuff2, sbuff+60, 10); sbuff2[10] = '\0';      
+				   ematrix.pw[kc][i].kfactor = atof(sbuff2);
+				   
+				   strncpy(ematrix.pw[kc][i].mark, sbuff+70, 3);
+				   *(strchr(ematrix.pw[kc][i].mark,'\n')) = '\0';
+			   }else{
+				   strncpy(ematrix.pw[kc][i].mark, sbuff+50, 3);
+				   *(strchr(ematrix.pw[kc][i].mark,'\n')) = '\0';
+			   }
                //sscanf(sbuff, "%d %s %f %f %f %s", &serial, uniqID, &pairwise_raw[kc][i].ele, &pairwise_raw[kc][i].vdw, &pairwise_raw[kc][i].ori, pairwise_raw[kc][i].mark);
                if (strcmp(uniqID, ematrix.conf[i].uniqID)) {
                   printf("   FATAL: Mismatch %s in protein structure and %s in %s.\n", ematrix.conf[i].uniqID,
@@ -343,8 +350,14 @@ int extract_matrix(EMATRIX *ematrix, char *dir, int verbose)
          printf("   Open file %s error\n", sbuff);
          return USERERR;
       }
-      for (j=0; j<ematrix->n; j++) {
-         fprintf(fp, "%05d %s %8.3f%8.3f%8.3f%8.3f%8.3f %s\n", j+1, ematrix->conf[j].uniqID, ematrix->pw[i][j].ele, ematrix->pw[i][j].vdw, ematrix->pw[i][j].crt, ematrix->pw[i][j].ori, ematrix->pw[i][j].pwBound, ematrix->pw[i][j].mark);
+	  if(env.opp_extended){
+		  for (j=0; j<ematrix->n; j++) {
+			fprintf(fp, "%05d %s %8.3f%8.3f%8.3f%8.3f%8.3f%8.3f %s\n", j+1, ematrix->conf[j].uniqID, ematrix->pw[i][j].ele, ematrix->pw[i][j].vdw, ematrix->pw[i][j].crt, ematrix->pw[i][j].ori, ematrix->pw[i][j].pwBound, ematrix->pw[i][j].kfactor, ematrix->pw[i][j].mark);
+		  }
+	  }else{
+		  for (j=0; j<ematrix->n; j++) {
+			 fprintf(fp, "%05d %s %8.3f%8.3f%8.3f%8.3f %s\n", j+1, ematrix->conf[j].uniqID, ematrix->pw[i][j].ele, ematrix->pw[i][j].vdw, ematrix->pw[i][j].crt, ematrix->pw[i][j].ori, ematrix->pw[i][j].mark);
+		  }
 	  }
       fclose(fp);
    }
